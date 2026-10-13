@@ -1,0 +1,161 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOjBiFXSeoxV9Aa7htsD74p",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/qnsebas23/Probabilidad-y-Estadistica/blob/main/unidad3/U3Practica3\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#Probablidad  estadistica\n",
+        "\n",
+        "#Unidad 3\n",
+        "\n",
+        "##Practica 3: **Tienda**\n",
+        "\n",
+        "Docente: Jose Gabriel Rodriguez Rivas\n",
+        "\n",
+        "Alumno: Sebastian Quiñones Nevarez\n"
+      ],
+      "metadata": {
+        "id": "WCzCsu4c-jrK"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import matplotlib.pyplot as plt\n",
+        "import numpy as np"
+      ],
+      "metadata": {
+        "id": "gpbFQ-xZ_TIS"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "x = [0, 1, 2, 3, 4, 5]\n",
+        "p = [0.05, 0.10, 0.25, 0.30, 0.20, 0.10]\n",
+        "\n",
+        "# 1. Verificar que las probabilidades sumen 1\n",
+        "suma_prob = sum(p)\n",
+        "print(f\"Suma de probabilidades: {suma_prob:.2f}\")\n",
+        "\n",
+        "# 2. Elaborar la distribución de probabilidad (Gráfica)\n",
+        "plt.stem(x, p)\n",
+        "plt.title(\"Distribución de Probabilidad\")\n",
+        "plt.xlabel(\"Unidades vendidas (X)\")\n",
+        "plt.ylabel(\"Probabilidad\")\n",
+        "plt.grid(True)\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "id": "AnuTUFa1-pn3"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 3. Valor esperado, varianza y desviación estándar\n",
+        "x_arr = np.array(x)\n",
+        "p_arr = np.array(p)\n",
+        "\n",
+        "esperanza = np.sum(x_arr * p_arr)\n",
+        "esperanza_cuadrado = np.sum((x_arr**2) * p_arr)\n",
+        "varianza = esperanza_cuadrado - esperanza**2\n",
+        "desviacion = np.sqrt(varianza)\n",
+        "\n",
+        "print(f\"E(X) = {esperanza:.2f}\")\n",
+        "print(f\"E(X^2) = {esperanza_cuadrado:.2f}\")\n",
+        "print(f\"Varianza = {varianza:.2f}\")\n",
+        "print(f\"Desviación estándar = {desviacion:.2f}\")\n",
+        "\n",
+        "# Gráfica con media y desviación estándar\n",
+        "plt.stem(x, p, basefmt=\" \", linefmt='b-', markerfmt='bo')\n",
+        "plt.title(\"Distribución de Probabilidad Discreta\\ncon Media y Desviación Estándar\")\n",
+        "plt.xlabel(\"Unidades vendidas (X)\")\n",
+        "plt.ylabel(\"P(X)\")\n",
+        "plt.grid(True, linestyle='--', alpha=0.6)\n",
+        "\n",
+        "# Línea vertical en la media\n",
+        "plt.axvline(x=esperanza, color='red', linestyle='--', label=f\"Media (E[X]) = {esperanza:.2f}\")\n",
+        "\n",
+        "# Franja de ±1 desviación estándar\n",
+        "plt.axvspan(esperanza - desviacion, esperanza + desviacion, color='red', alpha=0.2, label=f\"±1 Desv. Estándar (σ = {desviacion:.2f})\")\n",
+        "\n",
+        "plt.legend()\n",
+        "plt.xticks(x)\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "id": "52YbCF8D-qT5"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 4. Función de Distribución Acumulada (FDA)\n",
+        "F = np.cumsum(p)\n",
+        "\n",
+        "print(\"Función de Distribución Acumulada (FDA)\")\n",
+        "for xi, fi in zip(x, F):\n",
+        "    print(f\"F({xi}) = {fi:.2f}\")\n",
+        "\n",
+        "# Gráfica de la FDA\n",
+        "plt.step(x, F, where='post')\n",
+        "plt.title(\"Función de Distribución Acumulada (FDA)\")\n",
+        "plt.xlabel(\"Unidades vendidas (X)\")\n",
+        "plt.ylabel(\"Probabilidad acumulada\")\n",
+        "plt.grid(True)\n",
+        "plt.ylim(0, 1.05)\n",
+        "plt.xticks(x)\n",
+        "plt.show()"
+      ],
+      "metadata": {
+        "id": "WhdkGGu2-ua5"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "##Interpretación de resultados\n",
+        "Unidades esperadas: El valor E(X) = 2.70 indica que se espera vender en promedio 2.7 unidades del producto por cada semana a largo plazo.\n",
+        "\n",
+        "Estabilidad de la demanda: : La desviación estándar σ = 1.27 y la varianza indican que la demanda presenta una variabilidad moderada. Las ventas típicas semanales fluctúan en su mayoría entre 1.43 y 3.97 unidades, lo que significa que la demanda es relativamente estable pero con ligeras fluctuaciones normales."
+      ],
+      "metadata": {
+        "id": "MjRDv6pG-zGD"
+      }
+    }
+  ]
+}
